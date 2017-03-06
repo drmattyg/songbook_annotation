@@ -9,6 +9,5 @@ app.controller "MainController", ($scope) ->
   $scope.output = ""
   $scope.taChange = () ->
     $scope.words = $scope.lyrics.split(" ");
-    # tags = words.map((w, ix) -> 
-    #   "<span ng-id='lyric_word_" + ix + "'>" + w + "</span>")
-    # $scope.output = tags.join(" ")
+  $scope.wordClick = (ix) ->
+    angular.element($("#lyrics_word_" + ix)).addClass("word_selected")

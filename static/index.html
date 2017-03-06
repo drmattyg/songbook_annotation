@@ -17,7 +17,7 @@
     <!-- Custom styles for this template -->
     <link href="css/navbar.css" rel="stylesheet">
 
-    <link href="css/torch_ui.css" rel="stylesheet">
+    <link href="css/songbook_annotation.css" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
@@ -75,9 +75,11 @@
       <div id='content' ng-app='TAApp' ng-controller="MainController">
         <textarea ng-model="lyrics" ng-change="taChange()" rows="8" cols="80"></textarea>
         <br>
-        <span ng-repeat="word in words">
-          <span id="lyrics_word_{{$index}}">{{word}}</span> 
-        </span>
+        <div class="lyrics_output">
+          <span ng-repeat="word in words">
+            <span id="lyrics_word_{{$index}}" ng-click="wordClick($index)">{{word}}</span> 
+          </span>
+        </div>
       </div>
       <!-- <div class="jumbotron">
 
