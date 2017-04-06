@@ -1,0 +1,72 @@
+$block_width: 612px
+$accept_green: #009900
+$skeleton_blue: #33C3F0
+
+@mixin absolutely
+  position: absolute
+  left: 0
+  top: 0
+  right: 0
+  bottom: 0
+
+@mixin block
+  margin: 0.5em
+  border: 1px black solid
+  padding: 0.5em
+  width: $block_width
+  flex-grow: 0
+
+@mixin label
+  background-color: black
+  font-weight: bold
+  color: white
+  padding: 0.5em
+  font-size: 1.5em
+
+@mixin top_level_block
+  padding: 0.5em
+  display: flex
+  flex-wrap: wrap
+  flex-direction: column
+  justify-content: flex-start
+  align-items: baseline
+
+@keyframes ping-flash
+  0%
+    background-color: white
+  10%
+    background-color: $skeleton_blue
+  100%
+    background-color: white
+
+.ping-flash-animation
+  animation: ping-flash 0.1s ease-out
+
+@keyframes log-entry
+  from
+    color: white
+    background-color: $skeleton_blue
+  to
+    color: black
+    background-color: white
+
+.log-entry-animation
+  animation: log-entry 2s ease-in-out 5s
+
+@keyframes fade-accept
+  from
+    color: white
+    background-color: $accept_green
+  to
+    color: black
+    background-color: white
+
+.fade-accept-animation
+  animation: fade-accept 3s ease-out
+
+.button-primary
+  padding-left: 15px
+  padding-right: 15px
+
+#main
+
