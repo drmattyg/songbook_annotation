@@ -1,4 +1,5 @@
-**/build/*
 **/node_modules/*
 .idea/*
 venv/*
+build_tmp/
+dist
