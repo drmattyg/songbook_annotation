@@ -1,10 +1,14 @@
+
+
 TimeCode = React.createClass
   getInitialState: ->
-      timecode: @props.timecode
-      play_status: "paused"
+      state =
+        timecode: @props.timecode
+        play_status: "paused"
+      return state
 
   render: ->
-    <span className='timecode'>{@state.timecode}</span>
+    <span id='timecode-display'>{@state.timecode}</span>
 
 
 module.exports = TimeCode
