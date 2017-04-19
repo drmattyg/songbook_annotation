@@ -17,6 +17,9 @@ jest = require 'jest'
 zip = require 'gulp-vinyl-zip'
 shrinkwrap = require 'gulp-shrinkwrap'
 modify = require 'gulp-modify'
+finalhandler = require 'finalhandler'
+http = require 'http'
+serve_static = require 'serve-static'
 
 # Directory for build output
 DIST_DIR='dist'
@@ -55,20 +58,6 @@ gulp.task 'webpack-app', ['webpack-config', 'compile'], ->
     .pipe(webpack(require("./#{BUILD_TMP}/webpack-app.conf.js")))
     .pipe(gulp.dest(DIST_DIR))
 
-# move worker javascript to the right place in the tree
-# - they must be standalone files, not webpacked together
-gulp.task 'workers', ['compile'], ->
-
-  webpack_options =
-    devtool: 'inline-source-maps'
-    target: 'webworker'
-
-  return gulp.src("#{BUILD_TMP}/app/worker/*Worker.js")
-    .pipe(newer("#{DIST_DIR}/worker/"))
-    .pipe(named())
-    .pipe(webpack(webpack_options))
-    .pipe(gulp.dest("#{DIST_DIR}/worker/"))
-
 # copies the base css into the dist
 #  - normalize.css
 #  - skeleton framework
@@ -78,6 +67,8 @@ gulp.task 'assets', ->
     .pipe(newer(DIST_DIR))
     .pipe(gulp.dest(DIST_DIR))
 
+  gulp.src('assets/air.mp3')
+    .pipe(gulp.dest(DIST_DIR))
   # favicon
   gulp.src('assets/images/**')
     .pipe(newer("#{DIST_DIR}/images"))
@@ -112,44 +103,17 @@ gulp.task 'compile-cjsx', ->
     .pipe(cjsx({bare: true}))
     .pipe(gulp.dest("#{BUILD_TMP}/app"))
 
-gulp.task 'jest-tests', ['compile'], (task_done)->
-
-  jest_callback = (result)->
-    if result?
-      gutil.log("Tests finished.")
-    else
-      gulp.error("Tests failed.")
-    gutil.log(result)
-    task_done()
-
-  # arg to config mapping here
-  # https://github.com/facebook/jest/blob/v14.1.0/packages/jest-config/src/setFromArgv.js
-  jest_config =
-    setupTestFrameworkScriptFile: "#{CWD}/test/jest-setup.js"
-    verbose: false
-    silent: true
-
-  jest.runCLI(jest_config, __dirname, jest_callback)
-
-  # return gulp.src("#{BUILD_TMP}")
-  #   .pipe(jest(jest_config))
-
-
 gulp.task 'deploy-lib', ->
   return gulp.src('src/lib/*js')
     .pipe(gulp.dest("#{BUILD_TMP}/app/lib/"))
 
-gulp.task 'testserver', ['default'], (cb)->
-  cmd = "coffee test/test_server.coffee dist"
-  exec cmd, (error, stdout, stderr)->
-    console.log stdout
-    console.error stderr
-    cb(error)
+gulp.task 'serve', ['dist'], (done)->
+  serve = serve_static(DIST_DIR)
+  server = http.createServer (req, res) ->
+    serve req, res, finalhandler(req, res)
+  server.listen(3000)
+  done()
 
-  return gulp.src("#{DIST_DIR}/**/*")
-    .pipe(rename(renamer))
-    .pipe(zip.zip(zipfile))
-    .pipe(gulp.dest(OUTPUT))
 
 gulp.task 'clean', ->
   del.sync([DIST_DIR, BUILD_TMP, JUNIT_RESULTS]) # synchronous delete
@@ -158,10 +122,7 @@ gulp.task 'clean', ->
 gulp.task 'compile', ['compile-coffee', 'compile-cjsx', 'deploy-lib']
 
 # constructs the full web tree
-gulp.task 'dist', ['assets', 'webpack-lib', 'webpack-app', 'workers']
-
-# runs unit tests
-gulp.task 'test', ['compile', 'jest-tests']
+gulp.task 'dist', ['assets', 'webpack-lib', 'webpack-app']
 
 # full default build
-gulp.task 'default', ['clean', 'compile', 'test', 'dist']
+gulp.task 'default', ['clean', 'compile', 'dist']
