@@ -12,6 +12,8 @@
     "browserify": "^13.1.1",
     "coffeeify": "^2.1.0",
     "del": "^2.2.2",
+    "expose-loader": "^0.7.3",
+    "finalhandler": "^1.0.1",
     "git-rev": "^0.2.1",
     "gulp": "^3.9.1",
     "gulp-cjsx": "^4.1.0",
@@ -32,6 +34,7 @@
     "jest": "^19.0.2",
     "path": "^0.12.7",
     "rename": "^1.0.3",
+    "serve-static": "^1.12.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-named": "^1.1.0",
     "vinyl-source-stream": "^1.1.0",
@@ -45,7 +48,8 @@
     "lodash": "^4.17.2",
     "moment": "^2.18.1",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "wavesurfer": "^1.1.11"
   },
   "bugs": {
     "url": "https://github.com/drmattyg/torch3d/issues"
