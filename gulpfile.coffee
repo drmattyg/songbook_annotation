@@ -67,6 +67,8 @@ gulp.task 'assets', ->
     .pipe(newer(DIST_DIR))
     .pipe(gulp.dest(DIST_DIR))
 
+  gulp.src('assets/air.mp3')
+    .pipe(gulp.dest(DIST_DIR))
   # favicon
   gulp.src('assets/images/**')
     .pipe(newer("#{DIST_DIR}/images"))

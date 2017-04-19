@@ -5,4 +5,6 @@ window._ = require 'lodash'
 window.moment = require 'moment'
 window.React = require 'react'
 window.ReactDOM = require 'react-dom'
-window.wavesurfer = require 'wavesurfer'
+window.WaveSurfer = require 'wavesurfer'
+# this plugin load attaches itself to WaveSurfer
+require './app/lib/wavesurfer.timeline'
