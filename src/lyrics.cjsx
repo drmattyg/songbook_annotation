@@ -68,6 +68,7 @@ Lyrics = React.createClass
     elem = click_event.target
     $elem = $(elem)
     console.log $elem
+    $elem.addClass('tapped')
     if $elem.hasClass("lyric-word")
       $word = $elem
       clicked_word = elem
