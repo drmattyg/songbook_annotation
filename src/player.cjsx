@@ -4,7 +4,7 @@ TimeCode = require "./timecode"
 
 zero_pad = (number)->
   "0#{number}".slice(-2)
-  
+
 format_timecode = (timecode)->
     _timecode = moment.duration(timecode, "seconds")
     hours = zero_pad(_timecode.hours())
@@ -88,7 +88,6 @@ Player = React.createClass
       @wavesurfer.play()
 
   do_play_pause: (e)->
-    console.log "play/pause click", e
     @wavesurfer.playPause()
 
   do_tap: ->
