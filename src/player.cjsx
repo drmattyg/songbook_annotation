@@ -85,7 +85,7 @@ Player = React.createClass
       @timeline.init
         wavesurfer: @wavesurfer
         container: '#timeline'
-      @wavesurfer.play()
+      # @wavesurfer.play()
 
   do_play_pause: (e)->
     @wavesurfer.playPause()

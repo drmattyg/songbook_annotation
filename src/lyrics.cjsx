@@ -41,7 +41,7 @@ Lyrics = React.createClass
 
   get_text_area: ->
     _lyrics = if @raw_lyrics? then @raw_lyrics else ''
-    <textarea placeholder='Paste lyrics here...' ref={@get_text_area_ref} defaultValue={_lyrics}></textarea>
+    <textarea placeholder='Paste lyrics here...' ref={@get_text_area_ref} defaultValue={_lyrics} rows='20'></textarea>
 
   get_click_field: ->
     <div id="click-field">{@build_spans()}</div>
@@ -51,17 +51,35 @@ Lyrics = React.createClass
       lines = @raw_lyrics.split("\n")
       spanned_lines = for line in lines
         do (line)->
-          ("<span>#{word}</span>" for word in line.split(/\s+/)).join(" ")
+          ("<span class='lyric-word'>#{word}</span>" for word in line.split(/\s+/)).join(" ")
 
       console.log spanned_lines
       full_spans =
         __html: ("<span class='lyric-line'>#{line}</span><br/>" for line in spanned_lines).join("\n")
-      return <div dangerouslySetInnerHTML={full_spans}></div>
+      return <div dangerouslySetInnerHTML={full_spans} onClick={@lyric_tap}></div>
     else
       ''
 
   get_text_area_ref: (text_area)->
     @text_area = text_area
     console.log "Got text_area", @text_area
+
+  lyric_tap: (click_event)->
+    elem = click_event.target
+    $elem = $(elem)
+    console.log $elem
+    if $elem.hasClass("lyric-word")
+      $word = $elem
+      clicked_word = elem
+      $line = $word.parent()
+      words = for child in $line.children()
+                if child == clicked_word
+                  "[#{clicked_word.textContent}]"
+                else
+                  "#{child.textContent}"
+      console.log words
+      @props.recordTap(words.join(" "))
+    else
+      # ignore non-word taps
 
 module.exports = Lyrics

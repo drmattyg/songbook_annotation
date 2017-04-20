@@ -17,7 +17,7 @@ AnnotatorApp = React.createClass
         </div>
         <div className='six columns'>
           <div id='lyrics-container' key='lyrics'>
-            <Lyrics/>
+            <Lyrics recordTap={@record_lyric_tap}/>
           </div>
         </div>
       </div>
@@ -25,6 +25,9 @@ AnnotatorApp = React.createClass
 
   componentDidMount: ->
     console.log("App mounted.")
+
+  record_lyric_tap: (comment)=>
+    console.log "lyric tap:", comment
 
 module.exports = (config, parentElement)->
           ReactDOM.render <AnnotatorApp />, parentElement
