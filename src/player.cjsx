@@ -1,5 +1,7 @@
-_ = require 'lodash'
+# CHANGE THE MUSIC HERE - (path relative to assets/ folder)
+MUSIC = "/air.mp3"
 
+_ = require 'lodash'
 TimeCode = require "./timecode"
 
 zero_pad = (number)->
@@ -58,7 +60,7 @@ Player = React.createClass
       container: @player_elem
     window.w = @wavesurfer
 
-    @wavesurfer.load("/air.mp3")
+    @wavesurfer.load(MUSIC)
 
     @wavesurfer.on "audioprocess", =>
       raw_timecode = @wavesurfer.getCurrentTime()
