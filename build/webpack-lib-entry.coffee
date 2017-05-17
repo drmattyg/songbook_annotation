@@ -8,3 +8,4 @@ window.ReactDOM = require 'react-dom'
 window.WaveSurfer = require 'wavesurfer'
 # this plugin load attaches itself to WaveSurfer
 require './app/lib/wavesurfer.timeline'
+window.yaml = require 'js-yaml'

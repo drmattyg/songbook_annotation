@@ -20,6 +20,9 @@ Player = React.createClass
       timecode: "00:00:00.0"
     return state
 
+  componentWillMount: ->
+    @ticks = @props.ticks
+
   render: ->
     <div className='row'>
       <div className='twelve columns'>
@@ -69,11 +72,18 @@ Player = React.createClass
       _state = @timecode.state
       _state.timecode = display_timecode
       @timecode.setState _state
+      # siphon off timecode events
+      if @ticks?
+        @ticks
+          raw: raw_timecode
+          display: display_timecode
 
     @wavesurfer.on "pause", =>
       _state = @state
-      _state.play_status = "puased"
+      _state.play_status = "paused"
       @setState _state
+      if @ticks?
+        @ticks(null)
 
     @wavesurfer.on "play", =>
       _state  = @state
@@ -92,5 +102,6 @@ Player = React.createClass
 
   do_tap: ->
     console.log "tap at timecode: #{@state.display_timecode} / #{@state.raw_timecode}"
+    @props.recordTap "waveform player tap (changeme)"
 
 module.exports = Player
