@@ -38,6 +38,7 @@ AnnotatorApp = React.createClass
     if @last_tick?
       entry = _.cloneDeep(@last_tick)
       entry.comment = comment
+      entry.raw = entry.raw * 1000
       @taps.push(entry)
       console.log "tap:", entry
       _state = _.cloneDeep(@state)
