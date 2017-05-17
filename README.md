@@ -27,6 +27,8 @@ gulp serve
 
 Load up http://localhost:3000/ in your browser.
 
+Note that you will have to re-run gulp to pick up changes to the code.
+
 ### shutdown the dev server
 
 Hit `Ctrl-c` in the shell where `gulp serve` was running.
