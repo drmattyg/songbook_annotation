@@ -26,26 +26,29 @@ Player = React.createClass
     @ticks = @props.ticks
 
   render: ->
-    <div className='row'>
-      <div className='twelve columns'>
-        <div id="player-container">
-          <div id="wavesurfer" key="player_control" ref={@get_elem_ref}></div>
-          <div id="timeline" key="timeline_control"></div>
-        </div>
-      </div>
+    <div id='player'>
       <div className='row'>
-        <div id='playpause' className='four columns'>
-            <button className='u-full-width' onClick={@do_play_pause}>{if @state.play_status == "paused" then "Play" else "Pause"}</button>
+        <div className='twelve columns'>
+          <div id="player-container">
+            <div id="wavesurfer" key="player_control" ref={@get_elem_ref}></div>
+            <div id="timeline" key="timeline_control"></div>
+          </div>
         </div>
-        <div id='tapandmark' className='four columns'>
-            <button className='u-full-width button-primary' onClick={@do_tap}>tap</button>
-        </div>
-        <div id='timecode' className='four columns'>
-          <div id='timecode-container'>
-            <TimeCode ref={@get_timecode_ref}/>
+        <div className='row'>
+          <div id='playpause' className='four columns'>
+              <button className='u-full-width' onClick={@do_play_pause}>{if @state.play_status == "paused" then "Play" else "Pause"}</button>
+          </div>
+          <div id='tapandmark' className='four columns'>
+              <button className='u-full-width button-primary' onClick={@do_tap}>tap</button>
+          </div>
+          <div id='timecode' className='four columns'>
+            <button id='timecode-container' className='u-full-width button-primary' onClick={@choose_song} title='Click to load song'>
+              <TimeCode ref={@get_timecode_ref}/>
+            </button>
           </div>
         </div>
       </div>
+      <div id='uploader'><input type="file" accept="audio/*" ref={@get_upload_input_ref} onChange={@load_song}></input></div>
     </div>
 
   get_timecode_ref: (comp)->
@@ -54,6 +57,10 @@ Player = React.createClass
   get_elem_ref: (elem)->
     @player_elem = elem
     @init_wavesurfer()
+
+  get_upload_input_ref: (elem)->
+    @upload_input = elem
+
 
   init_wavesurfer: ()->
     @wavesurfer = WaveSurfer.create
@@ -105,5 +112,13 @@ Player = React.createClass
   do_tap: ->
     console.log "tap at timecode: #{@state.display_timecode} / #{@state.raw_timecode}"
     @props.recordTap "waveform player tap (changeme)"
+
+  choose_song: ->
+    $(@upload_input).click()
+
+  load_song: (event)->
+    for upload in @upload_input.files
+      data_uri = window.URL.createObjectURL(upload)
+      @wavesurfer.load(data_uri)
 
 module.exports = Player

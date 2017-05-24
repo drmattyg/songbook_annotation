@@ -3,7 +3,7 @@
 TimeCode = React.createClass
   getInitialState: ->
       state =
-        timecode: @props.timecode
+        timecode: @props.timecode ? "--:--:--.--"
         play_status: "paused"
       return state
 
