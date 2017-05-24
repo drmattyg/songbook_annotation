@@ -118,27 +118,10 @@ Player = React.createClass
 
   load_song: (event)->
     @wavesurfer.pause()
-    # if @data_uri?
-    #   window.URL.revokeObjectURL(@data_uri)
     for upload in @upload_input.files
-      # @data_uri = window.URL.createObjectURL(upload)
       @wavesurfer.empty()
       @wavesurfer.loadBlob(upload)
       $("#title h3").html(upload.name)
-      # @read_tags(upload)
-
-   read_tags: (upload)->
-     reader = new FileReader()
-     reader.addEventListener "load", ->
-       buff = reader.result
-       length = buff.byteLength
-       console.log("Loaded file (length: #{length})", upload)
-       dv = new DataView(buff, length - 128, 128)
-
-       console.log(tag_slice)
-
-
-     reader.readAsArrayBuffer(upload)
 
 
 
