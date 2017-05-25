@@ -29,7 +29,12 @@ AnnotatorApp = React.createClass
 
   componentDidMount: ->
     console.log("App mounted.")
-    @taps = []
+    zero_tap =
+      comment: "start here"
+      raw: 0
+      display: "00:00:00.000"
+
+    @taps = [zero_tap]
 
   songbook_ref: (ref)->
     @songbook = ref
@@ -38,7 +43,7 @@ AnnotatorApp = React.createClass
     if @last_tick?
       entry = _.cloneDeep(@last_tick)
       entry.comment = comment
-      entry.raw = entry.raw * 1000
+      entry.raw = Math.round(entry.raw * 1000)
       @taps.push(entry)
       console.log "tap:", entry
       _state = _.cloneDeep(@state)

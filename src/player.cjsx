@@ -122,6 +122,7 @@ Player = React.createClass
       @wavesurfer.empty()
       @wavesurfer.loadBlob(upload)
       $("#title h3").html(upload.name)
+      window.songbook_title = upload.name
 
 
 
