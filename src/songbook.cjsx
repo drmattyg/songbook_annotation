@@ -26,10 +26,17 @@ Songbook = React.createClass
 
   taps: (taps)->
     sorted_taps = _.sortBy(taps, ['raw'])
-    moves = for move in sorted_taps
+    moves = for move, index in sorted_taps
+
+      # compute how long the move should take by peeking ahead
+      time = if sorted_taps[index + 1]?
+               sorted_taps[index + 1].raw - move.raw
+             else
+               "(not set)"
 
       songbook_entry = _.cloneDeep(move_template)
       songbook_entry.start_at = move.raw
+      songbook_entry.time = time
       songbook_entry.comment = "(#{move.display}) #{move.comment}"
       songbook_entry
 
